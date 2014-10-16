@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Carlos Tomé Cortiñas" />
+  <title>Haskell</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.min.css"/>
+    <style type="text/css">code{white-space: pre;}</style>
+    <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #2a211c; color: #bdae9d; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; background-color: #2a211c; color: #bdae9d; border-right: 1px solid #bdae9d; }
+td.sourceCode { padding-left: 5px; }
+pre, code { color: #bdae9d; background-color: #2a211c; }
+code > span.kw { color: #43a8ed; font-weight: bold; }
+code > span.dt { text-decoration: underline; }
+code > span.dv { color: #44aa43; }
+code > span.bn { color: #44aa43; }
+code > span.fl { color: #44aa43; }
+code > span.ch { color: #049b0a; }
+code > span.st { color: #049b0a; }
+code > span.co { color: #0066ff; font-style: italic; }
+code > span.al { color: #ffff00; }
+code > span.fu { color: #ff9358; font-weight: bold; }
+code > span.er { font-weight: bold; }
+    </style>
+    <link rel="stylesheet" href="slides.css"/>
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">Haskell</h1>
+    <h2 class="author">Carlos Tomé Cortiñas</h2>
+    <h3 class="date">Xornadas Libres 2014</h3>
+</section>
+
+<section><section id="qué-es-haskell" class="titleslide slide level1"><h1>Qué es Haskell?</h1></section><section class="slide level6">
+
+<blockquote>
+<p>Haskell is a polymorphically statically typed, lazy, purely functional language.</p>
+</blockquote>
+</section><section class="slide level6">
+
+<blockquote>
+<p>Haskell, though not perfect, is of a quality that is several orders of magnitude higher than Java, which is a mess.</p>
+</blockquote>
+<p>Edsger Dijkstra</p>
+</section></section>
+<section><section id="tipado" class="titleslide slide level1"><h1>Tipado</h1></section><section class="slide level6">
+
+<p>Toda expresion tiene un tipo.</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+<span class="ot">uno ::</span> <span class="dt">Integer</span> 
+uno <span class="fu">=</span> <span class="dv">1</span></code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">holaMundo ::</span> <span class="dt">String</span>
+holaMundo <span class="fu">=</span> <span class="st">&quot;Hola mundo&quot;</span></code></pre>
+</div>
+<div class="fragment">
+<p>No es necesario decirle el tipo al compilador, este hace inferencia de tipos:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">
+<span class="dt">Prelude</span><span class="fu">&gt;</span> <span class="fu">:</span>t <span class="st">&quot;Hola mundo&quot;</span>
+<span class="st">&quot;Hola mundo&quot;</span><span class="ot"> ::</span> <span class="dt">String</span></code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>En Haskell hay unos tipos básicos predefinidos:</p>
+<ul>
+<li class="fragment">Bool</li>
+<li class="fragment">Int</li>
+<li class="fragment">Integer</li>
+<li class="fragment">String</li>
+<li class="fragment">Float</li>
+<li class="fragment">Double</li>
+<li class="fragment">...</li>
+</ul>
+</section><section class="slide level6">
+
+<p>Además de tipos parametrizables:</p>
+<ul>
+<li class="fragment">[a]</li>
+<li class="fragment">Maybe a</li>
+<li class="fragment">(a,b)</li>
+<li class="fragment">()</li>
+<li class="fragment">IO a</li>
+<li class="fragment">(a -&gt; a)</li>
+<li class="fragment">(a -&gt; (a -&gt; b) -&gt; b)</li>
+<li class="fragment">...</li>
+</ul>
+</section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">id<span class="ot"> ::</span> a <span class="ot">-&gt;</span> a</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">take<span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">any<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">(.) ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> c)</code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>También se pueden definir nuestros propios tipos:</p>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Rojo</span> <span class="fu">|</span> <span class="dt">Azul</span> <span class="fu">|</span> <span class="dt">Verde</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="shell"><code>Prelude&gt;:t Rojo
+Rojo :: Color</code></pre>
+</div>
+<div class="fragment">
+<p>Por ejemplo el tipo Bool se define como:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Bool</span> <span class="fu">=</span> <span class="dt">True</span> <span class="fu">|</span> <span class="dt">False</span></code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>O se pueden definir en base a otros tipos que ya existen:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Punto</span> <span class="fu">=</span> <span class="dt">Punto</span> <span class="dt">Int</span> <span class="dt">Int</span></code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">PuntoColoreado</span> <span class="fu">=</span> <span class="dt">PuntoColoreado</span> <span class="dt">Punto</span> <span class="dt">Color</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">x ::</span> <span class="dt">Punto</span>
+x <span class="fu">=</span> <span class="dt">Punto</span> <span class="dv">10</span> <span class="dv">1</span>
+
+<span class="ot">x_rojo ::</span> <span class="dt">PuntoColoreado</span>
+x_rojo <span class="fu">=</span> <span class="dt">PuntoColoreado</span> x <span class="dt">Rojo</span></code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>También podemos definir <code>records</code> que son como las struct en c:</p>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">PersonalInfo</span> <span class="fu">=</span> 
+  <span class="dt">PersonalInfo</span> {<span class="ot"> telefono ::</span> <span class="dt">Int</span>
+               ,<span class="ot"> nombre   ::</span> <span class="dt">String</span> }</code></pre>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Empleado</span> <span class="fu">=</span> 
+  <span class="dt">Empleado</span> {<span class="ot"> info ::</span> <span class="dt">PersonalInfo</span>
+           ,<span class="ot"> salario ::</span> <span class="dt">Double</span> }</code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>O tipos parametrizables:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">List</span> a <span class="fu">=</span> <span class="dt">Nil</span> <span class="fu">|</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)
+
+<span class="kw">data</span> [a] <span class="fu">=</span> [] <span class="fu">|</span> a <span class="fu">:</span> [a]</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="fu">=</span> <span class="dt">Just</span> a <span class="fu">|</span> <span class="dt">Nothing</span>
+
+<span class="kw">data</span> <span class="dt">Either</span> a b <span class="fu">=</span> <span class="dt">Right</span> a <span class="fu">|</span> <span class="dt">Left</span> b</code></pre>
+</div>
+</section></section>
+<section><section id="funcional" class="titleslide slide level1"><h1>Funcional</h1></section><section class="slide level6">
+
+<p>En Haskell todo (o casi todo) es una función, y podemos hacer dos cosas con ellas, defininirlas o aplicarlas.</p>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">dime ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+dime <span class="dv">0</span> <span class="fu">=</span> <span class="st">&quot;cero&quot;</span>
+dime <span class="dv">1</span> <span class="fu">=</span> <span class="st">&quot;uno&quot;</span>
+dime n <span class="fu">=</span> dime (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">++</span> <span class="st">&quot; más &quot;</span> <span class="fu">++</span> dime <span class="dv">1</span></code></pre>
+</div>
+<div class="fragment">
+<p>Y lo podemos cargar en el modo interactivo: . . .</p>
+<pre class="shell"><code>Prelude&gt; dime 1
+&quot;uno&quot;
+Prelude&gt; dime 2
+&quot;uno más uno más uno&quot;</code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>Hay varias maneras de definir una función:</p>
+<div class="fragment">
+<p>Pattern-matching:</p>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Rojo</span> <span class="fu">|</span> <span class="dt">Azul</span> <span class="fu">|</span> <span class="dt">Gris</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">colorToString ::</span> <span class="dt">Color</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+colorToString <span class="dt">Rojo</span> <span class="fu">=</span> <span class="st">&quot;rojo&quot;</span>
+colorToString <span class="dt">Azul</span> <span class="fu">=</span> <span class="st">&quot;azul&quot;</span>
+colorToString <span class="dt">Gris</span> <span class="fu">=</span> <span class="st">&quot;gris&quot;</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Int</span> <span class="fu">=</span> <span class="st">#Int</span>
+
+<span class="ot">dime ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+dime <span class="dv">0</span> <span class="fu">=</span> <span class="st">&quot;cero&quot;</span>
+dime <span class="dv">1</span> <span class="fu">=</span> <span class="st">&quot;uno&quot;</span>
+dime n <span class="fu">=</span> dime (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">++</span> <span class="st">&quot; más &quot;</span> <span class="fu">++</span> dime <span class="dv">1</span></code></pre>
+</div>
+</section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> [a] <span class="fu">=</span> [] <span class="fu">|</span> a <span class="fu">:</span> [a]
+error<span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> a</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">head<span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> a
+head [] <span class="fu">=</span> error <span class="st">&quot;head: empty list&quot;</span>
+head (x<span class="fu">:</span>xs) <span class="fu">=</span> x</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
+map f [] <span class="fu">=</span> []
+map f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> map f xs</code></pre>
+</div>
+</section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> (,) a b <span class="fu">=</span> (a,b)</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">fst<span class="ot"> ::</span> (a,b) <span class="ot">-&gt;</span> a
+fst (a,_) <span class="fu">=</span> a</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">snd<span class="ot"> ::</span> (a,b) <span class="ot">-&gt;</span> b
+snd (_,b) <span class="fu">=</span> b</code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>Guardas:</p>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">any<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+any p xs <span class="fu">|</span> null xs     <span class="fu">=</span> <span class="dt">False</span>
+         <span class="fu">|</span> p (head xs) <span class="fu">=</span> <span class="dt">True</span>
+         <span class="fu">|</span> otherwise   <span class="fu">=</span> any p (tail xs)</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">dime ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+dime n <span class="fu">|</span> n <span class="fu">==</span> <span class="dv">0</span> <span class="fu">=</span> <span class="st">&quot;cero&quot;</span>
+       <span class="fu">|</span> n <span class="fu">==</span> <span class="dv">1</span> <span class="fu">=</span> <span class="st">&quot;uno&quot;</span>
+       <span class="fu">|</span> otherwise <span class="fu">=</span>  dime (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">++</span> <span class="st">&quot; más &quot;</span> <span class="fu">++</span> dime <span class="dv">1</span>
+       <span class="co">-- Otherwise es sinonimo de True</span></code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>Case-expressions:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">dime ::</span> <span class="dt">Integer</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+dime n <span class="fu">=</span> 
+  <span class="kw">case</span> n <span class="kw">of</span>
+    <span class="dv">0</span> <span class="ot">-&gt;</span> <span class="st">&quot;cero&quot;</span>
+    <span class="dv">1</span> <span class="ot">-&gt;</span> <span class="st">&quot;uno&quot;</span>
+    n <span class="ot">-&gt;</span> dime (n<span class="fu">-</span><span class="dv">1</span>) <span class="fu">++</span> <span class="st">&quot; más &quot;</span> <span class="fu">++</span> dime <span class="dv">1</span></code></pre>
+</section><section class="slide level6">
+
+<p>Funciones anónimas:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">id<span class="ot"> ::</span> a <span class="ot">-&gt;</span> a
+id <span class="fu">=</span> \x <span class="ot">-&gt;</span> x
+
+<span class="ot">apply ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b
+apply <span class="fu">=</span> \f x <span class="ot">-&gt;</span> f x</code></pre>
+</section><section class="slide level6">
+
+<p>Aplicación parcial (currying):</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">drop<span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">drop<span class="ot"> ::</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> ([a] <span class="ot">-&gt;</span> [a]))</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">drop <span class="dv">10</span><span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> [a] </code></pre>
+</div>
+</section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">add ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+add x y <span class="fu">=</span> x <span class="fu">+</span> y</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+add10 <span class="fu">=</span> add <span class="dv">10</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">add10 <span class="dv">20</span><span class="ot"> ::</span> <span class="dt">Int</span></code></pre>
+</div>
+</section></section>
+<section><section id="perezoso" class="titleslide slide level1"><h1>Perezoso</h1></section><section class="slide level6">
+
+<pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> adios_mundo():
+  <span class="kw">while</span> <span class="ot">True</span>:
+    <span class="kw">pass</span>
+  <span class="kw">return</span> <span class="st">&quot;Adios mundo&quot;</span>
+
+<span class="kw">def</span> hola_mundo():
+  <span class="kw">return</span> <span class="st">&quot;Hola mundo&quot;</span>
+
+<span class="kw">def</span> fst(a,b):
+  <span class="kw">return</span> a
+
+<span class="kw">def</span> main():
+  fst(hola_mundo(), adios_mundo())</code></pre>
+<div class="fragment">
+<pre class="sourceCode python"><code class="sourceCode python">&gt;&gt;&gt; main()</code></pre>
+</div>
+</section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">loop ::</span> <span class="dt">String</span>
+loop <span class="fu">=</span> <span class="st">&quot;Estoy en un bucle, &quot;</span> <span class="fu">++</span> loop</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Prelude</span><span class="fu">&gt;</span> loop
+<span class="st">&quot;Estoy en un bucle, Estoy en un bucle, Estoy en un bucle, Estoy en un bucle, </span>
+<span class="st">...</span></code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">miPrograma ::</span> <span class="dt">String</span>
+miPrograma <span class="fu">=</span> fst <span class="st">&quot;Este programa termina&quot;</span> loop</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Prelude</span><span class="fu">&gt;</span> miPrograma
+<span class="st">&quot;Este programa termina&quot;</span></code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>No solamente las funciones, esto ocurre en todas las expresiones:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">unos ::</span> [<span class="dt">Integer</span>]
+unos <span class="fu">=</span> <span class="dv">1</span> <span class="fu">:</span> unos</code></pre>
+<div class="fragment">
+<p>Como solo se va a evaluar lo que necesitamos podemos aplicar funciones sobre expresiones potencialmente infinitas:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">take<span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]
+take <span class="dv">0</span> _ <span class="fu">=</span> []
+take n (x<span class="fu">:</span>xs) <span class="fu">=</span> x <span class="fu">:</span> take (n<span class="fu">-</span><span class="dv">1</span>) xs
+
+<span class="dt">Prelude</span><span class="fu">&gt;</span> take <span class="dv">10</span> unos
+[<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>]  </code></pre>
+</div>
+</section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">myIf ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+myIf <span class="dt">True</span> x _  <span class="fu">=</span> x
+myIf <span class="dt">False</span> _ y <span class="fu">=</span> y</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">safeDiv ::</span> <span class="dt">Float</span> <span class="ot">-&gt;</span> <span class="dt">Float</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">Float</span>
+safeDiv x y 
+ <span class="fu">|</span> y <span class="fu">==</span> <span class="dv">0</span>    <span class="fu">=</span> <span class="dt">Nothing</span>
+ <span class="fu">|</span> otherwise <span class="fu">=</span> <span class="dt">Just</span> result
+  <span class="kw">where</span> 
+    result <span class="fu">=</span> x<span class="fu">/</span>y</code></pre>
+</div>
+</section></section>
+<section><section id="más-sobre-listas" class="titleslide slide level1"><h1>Más sobre listas</h1></section><section class="slide level6">
+
+<pre class="sourceCode haskell"><code class="sourceCode haskell">ceros <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</span> ceros
+
+
+<span class="ot">miLista ::</span> [<span class="dt">Int</span>]
+miLista <span class="fu">=</span> [<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">13</span>,<span class="dv">21</span>,<span class="dv">34</span>]</code></pre>
+</section><section class="slide level6">
+
+<p>Compresión de listas:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">miLista2 ::</span> [<span class="dt">Int</span>]
+miLista2 <span class="fu">=</span> [ <span class="dv">2</span> <span class="fu">+</span> x <span class="fu">|</span> x <span class="ot">&lt;-</span> miLista]</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Prelude</span><span class="fu">&gt;</span> miLista2
+[<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>,<span class="dv">10</span>,<span class="dv">15</span>,<span class="dv">22</span>,<span class="dv">34</span>]</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">otraLista ::</span> [<span class="dt">String</span>]
+otraLista <span class="fu">=</span> [ show x <span class="fu">|</span> x <span class="ot">&lt;-</span> miLista2, x <span class="ot">`mod`</span> <span class="dv">2</span> <span class="fu">==</span> <span class="dv">0</span>]</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Prelude</span><span class="fu">&gt;</span> miLista2
+[<span class="st">&quot;3&quot;</span>,<span class="st">&quot;3&quot;</span>,<span class="st">&quot;5&quot;</span>,<span class="st">&quot;7&quot;</span>,<span class="st">&quot;15&quot;</span>]</code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>Funciones sobre listas:</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
+map f [] <span class="fu">=</span> []
+map f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> map f xs</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">filter<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]
+filter p [] <span class="fu">=</span> []
+filter p (x<span class="fu">:</span>xs) <span class="fu">|</span> p x       <span class="fu">=</span> x <span class="fu">:</span> filter p xs
+                <span class="fu">|</span> otherwise <span class="fu">=</span> filter p xs</code></pre>
+</div>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell">foldl<span class="ot"> ::</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> b
+foldl f accum []     <span class="fu">=</span> accum
+foldl f accum (x<span class="fu">:</span>xs) <span class="fu">=</span> f (foldl f accum xs) x </code></pre>
+</div>
+</section><section class="slide level6">
+
+<p>La lista con los números de Fibonacci</p>
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">zipwith ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [c]
+zipWith f [] [] <span class="fu">=</span> []
+zipWith f (x<span class="fu">:</span>xs) (y<span class="fu">:</span>ys) <span class="fu">=</span> f x y <span class="fu">:</span> zipWith f xs ys
+zipWith f _ _ <span class="fu">=</span> []</code></pre>
+<div class="fragment">
+<pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">fibs ::</span> [<span class="dt">Int</span>]
+fibs <span class="fu">=</span> <span class="dv">0</span> <span class="fu">:</span> <span class="dv">1</span> <span class="fu">:</span> zipWith (<span class="fu">+</span>) fibs (tail fibs)
+
+<span class="dt">Prelude</span><span class="fu">&gt;</span> take <span class="dv">10</span> fibs 
+[<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">8</span>,<span class="dv">13</span>,<span class="dv">21</span>,<span class="dv">34</span>]</code></pre>
+</div>
+</section></section>
+<section><section id="about" class="titleslide slide level1"><h1>About</h1></section><section class="slide level6">
+
+<p>Si aún estais intersados en Haskell:</p>
+<ul>
+<li><a href="http://learnyouahaskell.com/chapters">Learn you a Haskell for a great good</a></li>
+<li><p><a href="http://book.realworldhaskell.org/">Real world Haskell</a></p></li>
+<li><a href="http://www.haskell.org">haskell.org</a></li>
+<li><p><a href="https://www.reddit.com/r/haskell/">reddit/haskell</a></p></li>
+<li><h2><a href="https://www.edx.org/course/delftx/delftx-fp101x-introduction-functional-2126">edX</a></h2></li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.min.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+#######
+# KVM #
+#######
+
+https://wiki.debian.org/KVM
+
+# aptitude install qemu-kvm libvirt-bin virt-manager
+# adduser <youruser> kvm
+# adduser <youruser> libvirt
+$ virsh --connect qemu:///system list --all
+
+System Tools -> Virtual Machine Manager
+or 
+$ virt-manager &
