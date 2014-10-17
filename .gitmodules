@@ -1,0 +1,14 @@
+[submodule "js-del-espagueti-a-la-lasanha"]
+	path = 2_Xoves/3-js-David&Asis/js-del-espagueti-a-la-lasanha
+	url = https://github.com/trabe-teaching/js-del-espagueti-a-la-lasanha.git
+[submodule "revealjs"]
+	path = 1_Mercores/3-Haskell-Carlos/reveal.js
+	url = https://github.com/hakimel/reveal.js.git
+[submodule "thymeleaf-101"]
+	path = 2_Xoves/1-thymeleaf-Marcos&Asis/thymeleaf-101
+	url = https://github.com/trabe-teaching/thymeleaf-101.git
+[submodule "motor_videojuegos_js"]
+	path = 3_Venres/4-videojuegos-Rafa&Pablo/motor_videojuegos_js
+	url = https://github.com/pgdoval/motor_videojuegos_js.git
+
+
